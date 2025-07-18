@@ -17,7 +17,6 @@
       padding: 20px;
       background-color: #fcfcfc;
       color: #333;
-      transition: background-color 0.3s, color 0.3s;
     }
 
     h1, h2 {
@@ -57,19 +56,6 @@
       background-color: #27ae60;
     }
 
-    .toggle-dark {
-      float: right;
-      margin-top: -40px;
-      background-color: #3498db;
-    }
-
-    .tengwar-img {
-      display: block;
-      max-width: 40%;
-      margin: 20px auto;
-      border-radius: 6px;
-    }
-
     iframe {
       width: 100%;
       height: 400px;
@@ -82,83 +68,24 @@
       font-size: 1.5em;
       line-height: 1.8;
       letter-spacing: 2px;
+      white-space: pre-wrap;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 10px;
     }
 
-    /* Mode fosc */
-    body.dark-mode {
-      background-color: #1e1e1e;
-      color: #e0e0e0;
+    textarea {
+      width: 100%;
+      font-size: 1.2em;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
     }
-
-    body.dark-mode h1, body.dark-mode h2 {
-      color: #f8f8f8;
-    }
-
-    body.dark-mode .note {
-      color: #aaa;
-    }
-
-    body.dark-mode pre {
-      background: #2c2c2c;
-      border-left-color: #666;
-    }
-
-    body.dark-mode .button {
-      background-color: #27ae60;
-    }
-
-    body.dark-mode .button:hover {
-      background-color: #1e8449;
-    }
-
-    body.dark-mode .toggle-dark {
-      background-color: #2980b9;
-    }
-
-    body.dark-mode iframe {
-      border-color: #555;
-    }
-
   </style>
 </head>
-
-<script>
-  const map = {
-    a: "a", e: "e", i: "i", o: "o", u: "u",
-    b: "b", c: "k", d: "d", f: "f", g: "g",
-    h: "h", j: "j", l: "l", m: "m", n: "n",
-    p: "p", q: "k", r: "r", s: "s", t: "t",
-    v: "v", x: "x", z: "z",
-    ç: "s", ñ: "ny", ŋ: "ng",
-    "ll": "ly", "ny": "ny", "gu": "g", "qu": "k"
-  };
-
-  function transcriu(text) {
-    let result = text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, ""); // Elimina accents
-
-    // Diftongs i combinacions especials primer
-    result = result.replace(/ll/g, map["ll"]);
-    result = result.replace(/ny/g, map["ny"]);
-    result = result.replace(/qu/g, map["qu"]);
-    result = result.replace(/gu/g, map["gu"]);
-
-    // Lletres simples
-    result = result.split("").map(c => map[c] || c).join("");
-
-    return result;
-  }
-
-  document.getElementById("inputText").addEventListener("input", function() {
-    const text = this.value;
-    const transcribed = transcriu(text);
-    document.getElementById("tengwarOutput").textContent = transcribed;
-  });
-</script>
-
-
 <body>
 
 <h1>Tengwar Mode Català</h1>
@@ -175,43 +102,63 @@
   <li>Els triftongs no tenen representació especial.</li>
 </ul>
 
-<h2>Taula de correspondències consonàntiques</h2>
-<p class="note">A continuació presentem les correspondències tengwar adaptades al català.</p>
- 
+<h2>Visualitza el document</h2>
 <iframe src="catalan_tengwar.pdf" title="Mode Tengwar en català"></iframe>
 
 <br><br>
 <a class="button" href="catalan_tengwar.pdf" download>⬇ Descarrega el PDF</a>
 
 <h2>Exemple escrit en Tengwar</h2>
-<p class="tengwar">zE51E 2(`V,O jL zHjL7( eJ5$(i1O 4(zTjyO jL zU`Ëj q7UwUzO7D `V5Utw7EwjLi iMe7Tt(R5, `Ëj, `ËzUy(R, `B q7(iTqG1E t(^j1O, `C5%t(, `ËieJ7iD4(i 2(7H`V, `Ë j#4(, `B `Ëji zUtw(71T`Ë `Ë5 qOi1U7( 4(ji v(^iM, `B t($f( 4( jL, yEi</p>
+<p class="tengwar">
+zE51E 2(`V,O jL zHjL7( eJ5$(i1O 4(zTjyO jL zU`Ëj q7UwUzO7D `V5Utw7EwjLi iMe7Tt(R5, `Ëj, `ËzUy(R, `B q7(iTqG1E t(^j1O, `C5%t(, `ËieJ7iD4(i 2(7H`V, `Ë j#4(, `B `Ëji zUtw(71T`Ë `Ë5 qOi1U7( 4(ji v(^iM, `B t($f( 4( jL, yEi
+</p>
 
-<p class="note">Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innombrables sufriments als aqueus i precipità moltes ànimes esforçades d'herois a l'Hades, i els convertia en pastura dels gossos i menja de les aus.</p>
+<p class="note">Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innombrables sofriments als aqueus i precipità moltes ànimes esforçades d'herois a l'Hades, i els convertia en pastura dels gossos i menja de les aus.</p>
 
 <h2>Transcriptor interactiu</h2>
-<p>Escriu una frase en català i la veuràs transcrita automàticament en Tengwar (mode català simplificat):</p>
+<p>Escriu una frase en català i la veuràs transcrita automàticament en Tengwar (versió fonètica simplificada):</p>
 
-<textarea id="inputText" rows="4" style="width:100%; font-size:1.2em;"></textarea>
-<p class="note">Resultat (fonètic aproximat):</p>
-<div id="tengwarOutput" class="tengwar" style="min-height: 2em;"></div>
-
+<textarea id="inputText" rows="4" placeholder="Escriu aquí una frase en català..."></textarea>
+<p class="note">Resultat aproximat en Tengwar:</p>
+<div id="tengwarOutput" class="tengwar"></div>
 
 <p><strong>Autor:</strong> David Carrascal Rierola – <em>Herumírë</em></p>
 <p><strong>Contacte:</strong> <a href="mailto:herumire@gmail.com">herumire@gmail.com</a></p>
 
 <script>
-  // Mode fosc persistent
-  function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-    localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode"));
+  const map = {
+    a: "a", e: "e", i: "i", o: "o", u: "u",
+    b: "b", c: "k", d: "d", f: "f", g: "g",
+    h: "h", j: "j", l: "l", m: "m", n: "n",
+    p: "p", q: "k", r: "r", s: "s", t: "t",
+    v: "v", x: "ks", z: "z",
+    ç: "s", ñ: "ny", "·": "", "ŀ": "l",
+    "ll": "ly", "ny": "ny", "gu": "g", "qu": "k"
+  };
+
+  function transcriu(text) {
+    let result = text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, ""); // Elimina accents
+
+    // Substitucions específiques primer
+    result = result.replace(/ll/g, map["ll"]);
+    result = result.replace(/ny/g, map["ny"]);
+    result = result.replace(/qu/g, map["qu"]);
+    result = result.replace(/gu/g, map["gu"]);
+
+    // Lletres individuals
+    result = result.split("").map(c => map[c] || c).join("");
+
+    return result;
   }
 
-  // Carrega preferència guardada
-  window.onload = function() {
-    if (localStorage.getItem("dark-mode") === "true") {
-      document.body.classList.add("dark-mode");
-    }
-  };
+  document.getElementById("inputText").addEventListener("input", function() {
+    const text = this.value;
+    const transcribed = transcriu(text);
+    document.getElementById("tengwarOutput").textContent = transcribed;
+  });
 </script>
 
 </body>
