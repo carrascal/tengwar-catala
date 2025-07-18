@@ -121,6 +121,44 @@
 
   </style>
 </head>
+
+<script>
+  const map = {
+    a: "a", e: "e", i: "i", o: "o", u: "u",
+    b: "b", c: "k", d: "d", f: "f", g: "g",
+    h: "h", j: "j", l: "l", m: "m", n: "n",
+    p: "p", q: "k", r: "r", s: "s", t: "t",
+    v: "v", x: "x", z: "z",
+    ç: "s", ñ: "ny", ŋ: "ng",
+    "ll": "ly", "ny": "ny", "gu": "g", "qu": "k"
+  };
+
+  function transcriu(text) {
+    let result = text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, ""); // Elimina accents
+
+    // Diftongs i combinacions especials primer
+    result = result.replace(/ll/g, map["ll"]);
+    result = result.replace(/ny/g, map["ny"]);
+    result = result.replace(/qu/g, map["qu"]);
+    result = result.replace(/gu/g, map["gu"]);
+
+    // Lletres simples
+    result = result.split("").map(c => map[c] || c).join("");
+
+    return result;
+  }
+
+  document.getElementById("inputText").addEventListener("input", function() {
+    const text = this.value;
+    const transcribed = transcriu(text);
+    document.getElementById("tengwarOutput").textContent = transcribed;
+  });
+</script>
+
+
 <body>
 
 <h1>Tengwar Mode Català</h1>
@@ -149,6 +187,14 @@
 <p class="tengwar">zE51E 2(`V,O jL zHjL7( eJ5$(i1O 4(zTjyO jL zU`Ëj q7UwUzO7D `V5Utw7EwjLi iMe7Tt(R5, `Ëj, `ËzUy(R, `B q7(iTqG1E t(^j1O, `C5%t(, `ËieJ7iD4(i 2(7H`V, `Ë j#4(, `B `Ëji zUtw(71T`Ë `Ë5 qOi1U7( 4(ji v(^iM, `B t($f( 4( jL, yEi</p>
 
 <p class="note">Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innombrables sufriments als aqueus i precipità moltes ànimes esforçades d'herois a l'Hades, i els convertia en pastura dels gossos i menja de les aus.</p>
+
+<h2>Transcriptor interactiu</h2>
+<p>Escriu una frase en català i la veuràs transcrita automàticament en Tengwar (mode català simplificat):</p>
+
+<textarea id="inputText" rows="4" style="width:100%; font-size:1.2em;"></textarea>
+<p class="note">Resultat (fonètic aproximat):</p>
+<div id="tengwarOutput" class="tengwar" style="min-height: 2em;"></div>
+
 
 <p><strong>Autor:</strong> David Carrascal Rierola – <em>Herumírë</em></p>
 <p><strong>Contacte:</strong> <a href="mailto:herumire@gmail.com">herumire@gmail.com</a></p>
