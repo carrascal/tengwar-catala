@@ -4,10 +4,17 @@
   <meta charset="UTF-8">
   <title>Tengwar en Català</title>
   <style>
-    @font-face {
-      font-family: 'TengwarAnnatar';
-      src: url('tngan.ttf') format('truetype');
-    }
+      @font-face {
+        font-family: 'TengwarAnnatar';
+        src: url('tngan.ttf') format('truetype');
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'TengwarAnnatarItalic';
+        src: url('tngani.ttf') format('truetype');
+        font-style: italic;
+      }
 
     body {
       font-family: "Segoe UI", sans-serif;
@@ -72,7 +79,11 @@
       border-radius: 6px;
       margin-top: 10px;
     }
-
+    
+    .tengwar.italic {
+      font-family: 'TengwarAnnatarItalic', serif;
+    }
+    
     .controls {
       display: flex;
       flex-wrap: wrap;
@@ -200,8 +211,8 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
   fontSizeInput.addEventListener("input", () => {
     output.style.fontSize = `${fontSizeInput.value}em`;
   });
-  fontStyleSelect.addEventListener("change", () => {
-    output.style.fontStyle = fontStyleSelect.value;
+   fontStyleSelect.addEventListener("change", () => {
+    output.classList.toggle("italic", fontStyleSelect.value === "italic");
   });
 
   // Inicialitza amb el text per defecte
