@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Tengwar en Català</title>
   <style>
-    /* Tipografia Tengwar */
     @font-face {
       font-family: 'TengwarAnnatar';
       src: url('tngan.ttf') format('truetype');
@@ -23,19 +22,6 @@
       color: #2c3e50;
     }
 
-    code {
-      background-color: #eee;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    pre {
-      background: #f4f4f4;
-      padding: 15px;
-      border-left: 5px solid #ccc;
-      overflow-x: auto;
-    }
-
     .note {
       font-style: italic;
       color: #666;
@@ -50,10 +36,21 @@
       border-radius: 6px;
       font-weight: bold;
       transition: background-color 0.3s ease;
+      margin-right: 10px;
+      margin-top: 10px;
     }
 
     .button:hover {
       background-color: #27ae60;
+    }
+
+    textarea {
+      width: 100%;
+      font-size: 1.2em;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
     }
 
     iframe {
@@ -65,24 +62,28 @@
 
     .tengwar {
       font-family: 'TengwarAnnatar', serif;
-      font-size: 1.5em;
+      font-size: 1.8em;
       line-height: 1.8;
       letter-spacing: 2px;
       white-space: pre-wrap;
-      padding: 10px;
+      padding: 15px;
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 6px;
       margin-top: 10px;
     }
 
-    textarea {
-      width: 100%;
-      font-size: 1.2em;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      resize: vertical;
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 15px 0;
+      align-items: center;
+    }
+
+    select, input[type="range"] {
+      padding: 6px;
+      font-size: 1em;
     }
   </style>
 </head>
@@ -94,14 +95,6 @@
 
 <p class="note">S’ha intentat que tots els dialectes de la llengua es trobin representats i puguin treballar amb el mode català sense dificultats.</p>
 
-<h2>Consideracions generals</h2>
-<ul>
-  <li>Es recomana descobrir el so de les paraules abans de transcriure-les.</li>
-  <li>Les vocals es poden representar com a <em>tehtar</em> (diacrítics) o com a tengwar equivalents.</li>
-  <li>Si s’opta per usar <em>tehtar</em>, s’han de col·locar damunt la tengwar precedent.</li>
-  <li>Els triftongs no tenen representació especial.</li>
-</ul>
-
 <h2>Visualitza el document</h2>
 <iframe src="catalan_tengwar.pdf" title="Mode Tengwar en català"></iframe>
 
@@ -109,21 +102,44 @@
 <a class="button" href="catalan_tengwar.pdf" download>⬇ Descarrega el PDF</a>
 
 <h2>Exemple escrit en Tengwar</h2>
+
 <p class="tengwar">
 zE51E 2(`V,O jL zHjL7( eJ5$(i1O 4(zTjyO jL zU`Ëj q7UwUzO7D `V5Utw7EwjLi iMe7Tt(R5, `Ëj, `ËzUy(R, `B q7(iTqG1E t(^j1O, `C5%t(, `ËieJ7iD4(i 2(7H`V, `Ë j#4(, `B `Ëji zUtw(71T`Ë `Ë5 qOi1U7( 4(ji v(^iM, `B t($f( 4( jL, yEi
 </p>
 
-<p class="note">Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innombrables sofriments als aqueus i precipità moltes ànimes esforçades d'herois a l'Hades, i els convertia en pastura dels gossos i menja de les aus.</p>
+<p class="note">
+Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innombrables sofriments als aqueus i precipità moltes ànimes esforçades d'herois a l'Hades, i els convertia en pastura dels gossos i menja de les aus.
+</p>
 
 <h2>Transcriptor interactiu</h2>
 <p>Escriu una frase en català i la veuràs transcrita automàticament en Tengwar (versió fonètica simplificada):</p>
 
-<textarea id="inputText" rows="4" placeholder="Escriu aquí una frase en català..."></textarea>
+<textarea id="inputText" rows="4">prova aquest transcriptor d'alfabet èlfic per escriure en català</textarea>
+
+<div class="controls">
+  <label for="fontSize">📏 Mida de lletra:</label>
+  <input type="range" id="fontSize" min="1.0" max="3.5" step="0.1" value="1.8">
+
+  <label for="fontStyle">🖋 Estil:</label>
+  <select id="fontStyle">
+    <option value="normal">Normal</option>
+    <option value="italic">Cursiva</option>
+  </select>
+</div>
+
 <p class="note">Resultat aproximat en Tengwar:</p>
 <div id="tengwarOutput" class="tengwar"></div>
 
+<div class="button-row">
+  <button class="button" onclick="copyToClipboard()">📋 Copia</button>
+  <button class="button" onclick="exportAsImage()">🖼 Exporta com a imatge</button>
+</div>
+
 <p><strong>Autor:</strong> David Carrascal Rierola – <em>Herumírë</em></p>
 <p><strong>Contacte:</strong> <a href="mailto:herumire@gmail.com">herumire@gmail.com</a></p>
+
+<!-- html2canvas per exportar a imatge -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
   const map = {
@@ -136,30 +152,52 @@ zE51E 2(`V,O jL zHjL7( eJ5$(i1O 4(zTjyO jL zU`Ëj q7UwUzO7D `V5Utw7EwjLi iMe7Tt(
     "ll": "ly", "ny": "ny", "gu": "g", "qu": "k"
   };
 
+  const inputText = document.getElementById("inputText");
+  const output = document.getElementById("tengwarOutput");
+  const fontSizeInput = document.getElementById("fontSize");
+  const fontStyleSelect = document.getElementById("fontStyle");
+
   function transcriu(text) {
     let result = text
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, ""); // Elimina accents
+      .replace(/[\u0300-\u036f]/g, ""); // elimina accents
 
-    // Substitucions específiques primer
     result = result.replace(/ll/g, map["ll"]);
     result = result.replace(/ny/g, map["ny"]);
     result = result.replace(/qu/g, map["qu"]);
     result = result.replace(/gu/g, map["gu"]);
 
-    // Lletres individuals
     result = result.split("").map(c => map[c] || c).join("");
 
     return result;
   }
 
-  document.getElementById("inputText").addEventListener("input", function() {
-    const text = this.value;
+  function updateTranscription() {
+    const text = inputText.value;
     const transcribed = transcriu(text);
-    document.getElementById("tengwarOutput").textContent = transcribed;
-  });
-</script>
+    output.textContent = transcribed;
+  }
 
-</body>
-</html>
+  function copyToClipboard() {
+    navigator.clipboard.writeText(output.textContent).then(() => {
+      alert("Text copiat al porta-retalls!");
+    }, () => {
+      alert("No s'ha pogut copiar el text.");
+    });
+  }
+
+  function exportAsImage() {
+    html2canvas(output, { backgroundColor: null }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'tengwar.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
+
+  inputText.addEventListener("input", updateTranscription);
+  fontSizeInput.addEventListener("input", () => {
+    output.style.fontSize = `${fontSizeInput.value}em`;
+  });
+  fontStyleSelect.addEventListener("change", ()
