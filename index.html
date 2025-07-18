@@ -112,7 +112,7 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
 </p>
 
 <h2>Transcriptor interactiu</h2>
-<p>Escriu una frase en català i la veuràs transcrita automàticament en Tengwar (versió fonètica simplificada):</p>
+<p>Escriu una frase en català i la veuràs transcrita automàticament en Tengwar (amb portadors i tehta associades):</p>
 
 <textarea id="inputText" rows="4">prova aquest transcriptor d'alfabet èlfic per escriure en català</textarea>
 
@@ -142,15 +142,7 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-  const map = {
-    a: "a", e: "e", i: "i", o: "o", u: "u",
-    b: "b", c: "k", d: "d", f: "f", g: "g",
-    h: "h", j: "j", l: "l", m: "m", n: "n",
-    p: "p", q: "k", r: "r", s: "s", t: "t",
-    v: "v", x: "ks", z: "z",
-    ç: "s", ñ: "ny", "·": "", "ŀ": "l",
-    "ll": "ly", "ny": "ny", "gu": "g", "qu": "k"
-  };
+  const vocals = ['a', 'e', 'i', 'o', 'u'];
 
   const inputText = document.getElementById("inputText");
   const output = document.getElementById("tengwarOutput");
@@ -158,19 +150,45 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
   const fontStyleSelect = document.getElementById("fontStyle");
 
   function transcriu(text) {
-    let result = text
+    let result = [];
+
+    let cleanText = text
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, ""); // elimina accents
+      .replace(/[\u0300-\u036f]/g, "") // Elimina accents
+      .replace(/[^a-zçñ·ŀ ]/g, ""); // Elimina símbols
 
-    result = result.replace(/ll/g, map["ll"]);
-    result = result.replace(/ny/g, map["ny"]);
-    result = result.replace(/qu/g, map["qu"]);
-    result = result.replace(/gu/g, map["gu"]);
+    // Substitucions especials
+    cleanText = cleanText
+      .replace(/ll/g, 'ly')
+      .replace(/ny/g, 'ny')
+      .replace(/qu/g, 'k')
+      .replace(/gu/g, 'g')
+      .replace(/ç/g, 's')
+      .replace(/ñ/g, 'ny')
+      .replace(/ŀ/g, 'l');
 
-    result = result.split("").map(c => map[c] || c).join("");
+    const paraules = cleanText.split(" ");
+    for (let paraula of paraules) {
+      let transcripcio = '';
+      for (let i = 0; i < paraula.length; i++) {
+        const l = paraula[i];
+        const prev = paraula[i - 1];
 
-    return result;
+        if (vocals.includes(l)) {
+          if (i === 0 || vocals.includes(prev)) {
+            transcripcio += ':' + l; // Portador
+          } else {
+            transcripcio += l; // Tehta sobre consonant anterior
+          }
+        } else {
+          transcripcio += l;
+        }
+      }
+      result.push(transcripcio);
+    }
+
+    return result.join(' ');
   }
 
   function updateTranscription() {
@@ -200,4 +218,12 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
   fontSizeInput.addEventListener("input", () => {
     output.style.fontSize = `${fontSizeInput.value}em`;
   });
-  fontStyleSelect.addEventListener("change", ()
+  fontStyleSelect.addEventListener("change", () => {
+    output.style.fontStyle = fontStyleSelect.value;
+  });
+
+  updateTranscription();
+</script>
+
+</body>
+</html>
