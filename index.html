@@ -142,7 +142,15 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-  const vocals = ['a', 'e', 'i', 'o', 'u'];
+  const map = {
+    a: "a", e: "e", i: "i", o: "o", u: "u",
+    b: "b", c: "k", d: "d", f: "f", g: "g",
+    h: "h", j: "j", l: "l", m: "m", n: "n",
+    p: "p", q: "k", r: "r", s: "s", t: "t",
+    v: "v", x: "ks", z: "z",
+    ç: "s", ñ: "ny", "·": "", "ŀ": "l",
+    "ll": "ly", "ny": "ny", "gu": "g", "qu": "k"
+  };
 
   const inputText = document.getElementById("inputText");
   const output = document.getElementById("tengwarOutput");
@@ -150,51 +158,20 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
   const fontStyleSelect = document.getElementById("fontStyle");
 
   function transcriu(text) {
-    let result = [];
-  
-    let cleanText = text
+    let result = text
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Elimina accents
-      .replace(/[^a-zçñ·ŀ ]/g, "");    // Manté la ç perquè després la puguis substituir
-  
-    // Substitucions especials
-    cleanText = cleanText
-      .replace(/ll/g, 'ly')
-      .replace(/ny/g, 'ny')
-      .replace(/qu/g, 'k')
-      .replace(/gu/g, 'g')
-      .replace(/ç/g, 's')  // ara sí, substitueix la ç per s
-      .replace(/ñ/g, 'ny')
-      .replace(/ŀ/g, 'l');
-  
-    const vocals = ['a', 'e', 'i', 'o', 'u'];
-    const paraules = cleanText.split(" ");
-  
-    for (let paraula of paraules) {
-      let transcripcio = '';
-      for (let i = 0; i < paraula.length; i++) {
-        const l = paraula[i];
-        const prev = paraula[i - 1];
-  
-        if (vocals.includes(l)) {
-          if (i === 0 || (i > 0 && vocals.includes(prev))) {
-            // Aquí pots posar un símbol visual que indiqui portador.
-            // Per exemple, usa 'ː' (U+02D0) que és un símbol de longitud, similar a dos punts però més estètic.
-            transcripcio += 'ː' + l;
-          } else {
-            transcripcio += l;
-          }
-        } else {
-          transcripcio += l;
-        }
-      }
-      result.push(transcripcio);
-    }
+      .replace(/[\u0300-\u036f]/g, ""); // elimina accents
 
-  return result.join(' ');
-}
+    result = result.replace(/ll/g, map["ll"]);
+    result = result.replace(/ny/g, map["ny"]);
+    result = result.replace(/qu/g, map["qu"]);
+    result = result.replace(/gu/g, map["gu"]);
 
+    result = result.split("").map(c => map[c] || c).join("");
+
+    return result;
+  }
 
   function updateTranscription() {
     const text = inputText.value;
@@ -227,6 +204,7 @@ Canta, deesa, la còlera funesta d'Aquil·leu el Pelida, la qual provocà innomb
     output.style.fontStyle = fontStyleSelect.value;
   });
 
+  // Inicialitza amb el text per defecte
   updateTranscription();
 </script>
 
