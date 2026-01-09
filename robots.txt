@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://carrascal.github.io/tengwar-catala/sitemap.xml
