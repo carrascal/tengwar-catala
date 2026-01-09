@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f6f8fa"/>
+      <stop offset="1" stop-color="#e8f5ef"/>
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#g)"/>
+
+  <!-- Card -->
+  <g transform="translate(60,60)">
+    <rect width="1080" height="510" rx="18" fill="#ffffff" filter="url(#shadow)"/>
+    <!-- Left column (thumbnail of PDF page) -->
+    <g transform="translate(28,28)">
+      <rect width="300" height="454" rx="6" fill="#f9f9f9" stroke="#e0e0e0"/>
+      <!-- stylized sample of Tengwar (plain Latin fallback) -->
+      <text x="22" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#6b7280">
+        zE51E 2(`V,O jL zHjL7( eJ5$(i1O...
+      </text>
+      <text x="22" y="420" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#9aa0a6">catalan_tengwar.pdf</text>
+    </g>
+
+    <!-- Right column (title + meta) -->
+    <g transform="translate(360,40)">
+      <text x="0" y="72" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="46" font-weight="700" fill="#0f1724">
+        Tengwar Mode Català
+      </text>
+
+      <text x="0" y="130" font-family="Inter, Arial, sans-serif" font-size="20" fill="#334155" style="opacity:0.95;">
+        Transcripció del català a l'alfabet tengwar — PDF i transcriptor interactiu.
+      </text>
+
+      <g transform="translate(0,190)">
+        <rect x="0" y="0" width="520" height="1" fill="#e6eef0"/>
+        <text x="0" y="64" font-family="Inter, Arial, sans-serif" font-size="18" fill="#475569">
+          Autor: David Carrascal Rierola — Herumírë
+        </text>
+        <text x="0" y="100" font-family="Inter, Arial, sans-serif" font-size="14" fill="#64748b">
+          https://carrascal.github.io/tengwar-catala/
+        </text>
+      </g>
+
+      <!-- Badge -->
+      <g transform="translate(0,270)">
+        <rect x="0" y="0" width="210" height="48" rx="8" fill="#10b981"/>
+        <text x="24" y="32" font-family="Inter, Arial, sans-serif" font-size="18" fill="#ffffff">PDF + Transcriptor</text>
+      </g>
+    </g>
+  </g>
+</svg>
